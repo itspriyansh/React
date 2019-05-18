@@ -2,15 +2,12 @@ import React, { Component } from 'react';
 import { Card, CardImg, CardTitle, CardBody, CardText } from 'reactstrap';
 
 class DishDetail extends Component{
-    constructor(props){
-        super(props);
-    }
     render() {
         if(this.props.dish!=null){
             const dish = this.props.dish;
             const comments = dish.comments.map((comment) => {
                 return(
-                    <div>
+                    <div tag="li">
                         <p>{comment.comment}</p>
                         <p>-- {comment.author}, {(new Date(comment.date)).toDateString()}</p>
                     </div>
@@ -27,7 +24,7 @@ class DishDetail extends Component{
                             </CardBody>
                         </Card>
                     </div>
-                    <div className="col-12 col-md-5 m-1">
+                    <div className="col-12 col-md-5 m-1" list>
                         <h2>Comments</h2>
                         {comments}
                     </div>
