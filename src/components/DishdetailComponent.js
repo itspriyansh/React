@@ -1,10 +1,10 @@
 import React from 'react';
-import { Card, CardImg, CardTitle, CardBody, CardText } from 'reactstrap';
+import { Card, CardImg, CardTitle, CardBody, CardText, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 const DishDetail = (props) => {
     if(props.dish!=null){
-        const dish = props.dish;
-        const comments = dish.comments.map((comment) => {
+        const comments = props.comments.map((comment) => {
             return(
                 <div tag="li">
                     <p>{comment.comment}</p>
@@ -15,12 +15,22 @@ const DishDetail = (props) => {
         return(
             <div className="container">
                 <div className="row">
+                    <Breadcrumb>
+                        <BreadcrumbItem><Link to='\menu'>Menu</Link></BreadcrumbItem>
+                        <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+                    </Breadcrumb>
+                    <div className='col-12'>
+                        <h3>{props.dish.name}</h3>
+                        <hr />
+                    </div>
+                </div>
+                <div className="row">
                     <div className="col-12 col-md-5 m-1">
                         <Card>
-                            <CardImg src={dish.image} alt={dish.name} />
+                            <CardImg src={props.dish.image} alt={props.dish.name} />
                             <CardBody>
-                                <CardTitle>{dish.name}</CardTitle>
-                                <CardText>{dish.description}</CardText>
+                                <CardTitle>{props.dish.name}</CardTitle>
+                                <CardText>{props.dish.description}</CardText>
                             </CardBody>
                         </Card>
                     </div>
