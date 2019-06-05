@@ -22,8 +22,7 @@ class Main extends Component{
     constructor(props) {
         super(props);
     
-        this.props = {
-            
+        this.state = {
             selectedDish: null
         };
     }
