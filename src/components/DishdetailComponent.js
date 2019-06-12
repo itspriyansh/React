@@ -3,6 +3,7 @@ import { Card, CardImg, CardTitle, CardBody, CardText, Breadcrumb, BreadcrumbIte
     Button, Modal, ModalHeader, ModalBody, Label, Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { LocalForm, Control, Errors } from 'react-redux-form';
+import { Loading } from './LoadingComponent';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || (val.length <= len);
@@ -29,7 +30,23 @@ class DishDetail extends Component{
     }
 
     render(){
-        if(this.props.dish!=null){
+        if(this.props.isLoading){
+            return(
+                <div className="container">
+                    <div className="row">
+                        <Loading />
+                    </div>
+                </div>
+            );
+        }else if(this.props.errMess){
+            return(
+                <div className="container">
+                    <div className="row">
+                        <h4>{this.props.errMess}</h4>       
+                    </div>
+                </div>
+            );
+        }else if(this.props.dish!=null){
             const comments = this.props.comments.map((comment) => {
                 return(
                     <div tag="li">
