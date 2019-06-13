@@ -4,6 +4,7 @@ import { Card, CardImg, CardTitle, CardBody, CardText, Breadcrumb, BreadcrumbIte
 import { Link } from 'react-router-dom';
 import { LocalForm, Control, Errors } from 'react-redux-form';
 import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || (val.length <= len);
@@ -70,7 +71,7 @@ class DishDetail extends Component{
                     <div className="row">
                         <div className="col-12 col-md-5 m-1">
                             <Card>
-                                <CardImg src={this.props.dish.image} alt={this.props.dish.name} />
+                                <CardImg src={baseUrl + this.props.dish.image} alt={this.props.dish.name} />
                                 <CardBody>
                                     <CardTitle>{this.props.dish.name}</CardTitle>
                                     <CardText>{this.props.dish.description}</CardText>

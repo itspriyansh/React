@@ -1,27 +1,47 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { baseUrl } from '../shared/baseUrl';
+import { Loading } from './LoadingComponent';
 
 function RenderLeaders({leaders}) {
-    const leadersList = leaders.map((leader) => {
+    if(leaders.isLoading){
         return(
-            <div key={leader.id} className="col-12 mt-5">
-                <Media tag="li">
-                    <Media left middle>
-                        <Media object src={leader.image} alt={leader.name} />
-                    </Media>
-                    <Media body className="ml-5">
-                        <Media heading>{leader.name}</Media>
-                        <p>{leader.designation}</p>
-                        <p>{leader.description}</p>
-                    </Media>
-                </Media>
+            <div className="container">
+                <div className="row">
+                    <Loading />
+                </div>
             </div>
         );
-    });
-    return(
-        <>{leadersList}</>
-    );
+    }else if(leaders.errMess){
+        return(
+            <div className="container">
+                <div className="row">
+                    <h4>{leaders.errMess}</h4>
+                </div>
+            </div>
+        );
+    }else{
+        const leadersList = leaders.leaders.map((leader) => {
+            return(
+                <div key={leader.id} className="col-12 mt-5">
+                    <Media tag="li">
+                        <Media left middle>
+                            <Media object src={baseUrl + leader.image} alt={leader.name} />
+                        </Media>
+                        <Media body className="ml-5">
+                            <Media heading>{leader.name}</Media>
+                            <p>{leader.designation}</p>
+                            <p>{leader.description}</p>
+                        </Media>
+                    </Media>
+                </div>
+            );
+        });
+        return(
+            <>{leadersList}</>
+        );
+    }
 }
 
 function About(props) {
