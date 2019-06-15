@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { LocalForm, Control, Errors } from 'react-redux-form';
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || (val.length <= len);
@@ -50,10 +51,12 @@ class DishDetail extends Component{
         }else if(this.props.dish!=null){
             const comments = this.props.comments.map((comment) => {
                 return(
-                    <div tag="li">
-                        <p>{comment.comment}</p>
-                        <p>-- {comment.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}</p>
-                    </div>
+                    <Fade in>
+                        <div tag="li">
+                            <p>{comment.comment}</p>
+                            <p>-- {comment.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}</p>
+                        </div>
+                    </Fade>
                 );
             });
             return(
@@ -70,17 +73,22 @@ class DishDetail extends Component{
                     </div>
                     <div className="row">
                         <div className="col-12 col-md-5 m-1">
-                            <Card>
-                                <CardImg src={baseUrl + this.props.dish.image} alt={this.props.dish.name} />
-                                <CardBody>
-                                    <CardTitle>{this.props.dish.name}</CardTitle>
-                                    <CardText>{this.props.dish.description}</CardText>
-                                </CardBody>
-                            </Card>
+                            <FadeTransform in
+                                transformProps={{
+                                    exitTransform: 'scale(0.5) translateY(-50%)'
+                                }}>
+                                <Card>
+                                    <CardImg src={baseUrl + this.props.dish.image} alt={this.props.dish.name} />
+                                    <CardBody>
+                                        <CardTitle>{this.props.dish.name}</CardTitle>
+                                        <CardText>{this.props.dish.description}</CardText>
+                                    </CardBody>
+                                </Card>
+                            </FadeTransform>
                         </div>
                         <div className="col-12 col-md-5 m-1" list>
                             <h2>Comments</h2>
-                            {comments}
+                            <Stagger in>{comments}</Stagger>
                             <Button outline onClick={this.toggleModal}>
                                 <span class="fa fa-pencil"></span> Submit Comment
                             </Button>
