@@ -42,6 +42,49 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
     });
 };
 
+export const addFeedback = (feedback) => ({
+    type: ActionTypes.ADD_FEEDBACK,
+    payload: feedback
+});
+
+export const postFeedback = (firstname, lastname, telnum, email, agree, contactType, message) => (dispatch) => {
+    const newFeedback = {
+        firstname: firstname,
+        lastname: lastname,
+        telnum: telnum,
+        email: email,
+        agree: agree,
+        contactType: contactType,
+        message: message
+    };
+
+    return fetch(baseUrl+'feedback', {
+        method: 'POST',
+        body: JSON.stringify(newFeedback),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin'
+    }).then(response => {
+        if(response.ok){
+            return response;
+        }else{
+            let err = new Error('Error '+response.status+': '+response.statusTest);
+            err.response = response;
+            throw err;
+        }
+    },
+    error => {
+        throw error;
+    })
+    .then(response => response.json())
+    .then(response => dispatch(addFeedback(response)))
+    .catch(err => {
+        console.log('post feedback', err.message);
+        alert('Your feedback could not be posted\nError: '+err.message);
+    });
+};
+
 export const fetchDishes = () => (dispatch) => {
     dispatch(dishesLoading(true));
     return fetch(baseUrl+'dishes')
